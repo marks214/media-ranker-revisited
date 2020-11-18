@@ -2,7 +2,7 @@ require 'test_helper'
 
 describe UsersController do
 
-  describe 'login' do
+  describe 'login and logged in users' do
     it 'can log in an existing user' do
       user = perform_login(users(:ada))
 
@@ -57,12 +57,24 @@ describe UsersController do
       end
     end
 
-    it "guest users on that route" do
+    describe "Guest users" do
 
+      # it "can acces the index" do
+      #   get works_path
+      #   must_resgpond_with :success
+      # end
+      #
+      # it "cannot access new" do
+      #   get new_work_path
+      #   must_redirect_to root_path
+      # end
+      #
+      # it "tries to log out" do
+      #   delete logout_path
+      #   must_redirect_to root_path
+      #   flash[:message].must_equal "Must log in first!"
+      # end
     end
 
-    it "guest user tries to log out" do
-
-    end
   end
 end
