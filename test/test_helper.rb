@@ -27,9 +27,10 @@ class ActiveSupport::TestCase
       uid: user.uid,
       provider: user.provider,
       info: {
-        name: user.username,
+        username: user.username,
+        name: user.name,
         email: user.email,
-        image: user.avatar
+        image: user.avatar,
       }
     }
   end
@@ -50,6 +51,11 @@ class ActiveSupport::TestCase
 
     # Verify the user ID was saved - if that didn't work, this test is invalid
     expect(session[:user_id]).must_equal user.id
+    return user
 
+  end
+
+  def perform_logout
+    delete logout_path
   end
 end
