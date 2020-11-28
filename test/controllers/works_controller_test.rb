@@ -2,6 +2,7 @@ require "test_helper"
 
 describe WorksController do
   let(:existing_work) { works(:album) }
+  let(:aimee_didnt_vote_for_this_work) {works(:another_album)}
 
   describe "root" do
     it "succeeds with all media types" do
@@ -189,19 +190,49 @@ describe WorksController do
 
   describe "upvote" do
     it "redirects to the work page if no user is logged in" do
-      skip
+      post upvote_path(existing_work.id)
+      expect(flash[:result_text]).must_equal "You must log in to do that"
+      must_respond_with :redirect
+      must_redirect_to work_path(existing_work.id)
     end
 
     it "redirects to the work page after the user has logged out" do
-      skip
+      user = users(:aimee)
+      perform_login(user)
+      delete logout_path
+      expect {
+        post upvote_path(aimee_didnt_vote_for_this_work.id)
+      }.wont_change "Vote.count"
+
+      must_respond_with :redirect
+      must_redirect_to work_path(aimee_didnt_vote_for_this_work.id)
     end
 
     it "succeeds for a logged-in user and a fresh user-vote pair" do
-      skip
+      user = users(:aimee)
+      perform_login(user)
+
+      expect {
+        post upvote_path(aimee_didnt_vote_for_this_work.id)
+      }.must_differ 'Vote.count', 1
+
+    expect(flash[:result_text]).must_equal "Successfully upvoted!"
+    must_respond_with :redirect
+    must_redirect_to work_path(aimee_didnt_vote_for_this_work.id)
     end
 
     it "redirects to the work page if the user has already voted for that work" do
-      skip
+      user = users(:ada)
+      perform_login(user)
+
+      expect {
+        post upvote_path(existing_work.id)
+      }.wont_change 'Vote.count'
+
+      expect(flash[:result_text]).must_equal "Could not upvote"
+      must_respond_with :redirect
+      must_redirect_to work_path(existing_work.id)
+
     end
   end
 end

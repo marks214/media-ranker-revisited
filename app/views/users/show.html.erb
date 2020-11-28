@@ -1,6 +1,6 @@
 <h2>User Summary: <%= link_to @user.username, user_path(@user) %></h2>
-<p>Joined site <%= render_date @user.created_at %></p>
-
+<p><%= @user.name %> joined site <%= render_date @user.created_at %></p>
+<%= image_tag @login_user.avatar, alt: "User's github image", class: "avatar"%>
 <section class="user-votes__container">
   <h3 class="user-votes__header">Votes</h3>
   <table class="table">
