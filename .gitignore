@@ -15,3 +15,9 @@
 
 # Ignore Byebug command history file.
 .byebug_history
+
+.env
+.idea/.generators
+.idea/.rakeTasks
+.idea/dataSources.xml
+.idea/media-ranker-revisited.iml

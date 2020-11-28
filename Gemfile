@@ -28,7 +28,13 @@ gem 'jbuilder', '~> 2.7'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
+gem "omniauth"
+gem "omniauth-github"
+
+ENV['GITHUB_CLIENT_ID']
+
 group :development, :test do
+  gem 'dotenv-rails'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
@@ -76,3 +82,4 @@ group :test do
   gem 'minitest-rails'
   gem 'minitest-reporters'
 end
+
