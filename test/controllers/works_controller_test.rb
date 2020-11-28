@@ -197,7 +197,15 @@ describe WorksController do
     end
 
     it "redirects to the work page after the user has logged out" do
-      skip
+      user = users(:aimee)
+      perform_login(user)
+      delete logout_path
+      expect {
+        post upvote_path(aimee_didnt_vote_for_this_work.id)
+      }.wont_change "Vote.count"
+
+      must_respond_with :redirect
+      must_redirect_to work_path(aimee_didnt_vote_for_this_work.id)
     end
 
     it "succeeds for a logged-in user and a fresh user-vote pair" do
