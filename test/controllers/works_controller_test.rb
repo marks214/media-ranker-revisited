@@ -189,7 +189,10 @@ describe WorksController do
 
   describe "upvote" do
     it "redirects to the work page if no user is logged in" do
-      skip
+      post upvote_path(existing_work.id)
+      expect(flash[:result_text]).must_equal "You must log in to do that"
+
+      must_respond_with :redirect
     end
 
     it "redirects to the work page after the user has logged out" do
@@ -201,7 +204,13 @@ describe WorksController do
     end
 
     it "redirects to the work page if the user has already voted for that work" do
-      skip
+      user = users(:ada)
+      perform_login(user)
+      post upvote_path(existing_work.id)
+      expect(flash[:result_text]).must_equal "Could not upvote"
+
+      must_respond_with :redirect
+
     end
   end
 end
