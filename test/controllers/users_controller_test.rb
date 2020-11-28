@@ -11,33 +11,36 @@ describe UsersController do
     end
 
     it 'can log in a new user' do
-      # TODO: returns nil?
       new_user = User.new(
         username: 'meeseeks',
-        uid: '1234',
+        uid: '22222',
         provider: 'github',
         name: 'Mx. MeeSeeks',
         email: 'hw@hw.net',
         )
 
+      OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(mock_auth_hash(new_user))
+
       expect {
-        perform_login(new_user)
+        get omniauth_callback_path(:github)
       }.must_change 'User.count', 1
 
-      session[:user_id].must_equal User.last.id
+      expect(session[:user_id]).must_equal User.last.id
     end
 
     it "will redirect for invalid user" do
       invalid_user = User.new(
         name: 'Mx. MeeSeeks',
         )
+      OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(mock_auth_hash(invalid_user))
 
       expect {
-        perform_login(invalid_user)
+        get omniauth_callback_path(:github)
       }.wont_change 'User.count'
 
-      expect { perform_login(invalid_user)
-      }.must_be_nil
+      expect(invalid_user = User.find_by(name: invalid_user.name, provider: 'github')).must_be_nil
+
+      expect(session[:user_id]).must_be_nil
     end
   end
 

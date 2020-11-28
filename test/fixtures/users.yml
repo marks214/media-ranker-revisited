@@ -10,6 +10,18 @@ ada:
 aimee:
   username: marks214
   provider: github
-  uid: 111
+  uid: 11123452345
   email: aimee.oz.x@gmail.com
   name: Aimee Oz
+
+dan:
+  provider: github
+  uid: 523453245
+  email: dan@dan.org
+  username: dan
+
+kari:
+  provider: github
+  uid: 13371337
+  email: kari@kari.net
+  username: kari
