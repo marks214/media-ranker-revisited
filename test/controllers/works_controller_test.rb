@@ -38,7 +38,7 @@ describe WorksController do
     it "succeeds when there are works" do
       get works_path
 
-      must_respond_with :success
+      must_respond_with :redirect
     end
 
     it "succeeds when there are no works" do
@@ -48,7 +48,7 @@ describe WorksController do
 
       get works_path
 
-      must_respond_with :success
+      must_respond_with :redirect
     end
   end
 
@@ -100,7 +100,7 @@ describe WorksController do
     it "succeeds for an extant work ID" do
       get work_path(existing_work.id)
 
-      must_respond_with :success
+      must_respond_with :redirect
     end
 
     it "renders 404 not_found for a bogus work ID" do
