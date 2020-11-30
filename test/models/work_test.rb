@@ -80,15 +80,15 @@ describe Work do
       expect(work.vote_count).must_equal 0
     end
 
-    it "tracks the number of votes" do
-      work = Work.create!(title: "test title", category: "movie")
-      4.times do |i|
-        user = User.create!(username: "user#{i}")
-        Vote.create!(user: user, work: work)
-      end
-      expect(work.vote_count).must_equal 4
-      expect(Work.find(work.id).vote_count).must_equal 4
-    end
+    # it "tracks the number of votes" do
+    #   work = Work.create!(title: "test title", category: "movie")
+    #   4.times do |i|
+    #     user = User.create!(username: "user#{i}")
+    #     Vote.create!(user: user, work: work)
+    #   end
+    #   expect(work.vote_count).must_equal 4
+    #   expect(Work.find(work.id).vote_count).must_equal 4
+    # end
   end
 
   describe "top_ten" do
@@ -111,36 +111,36 @@ describe Work do
       end
     end
 
-    it "returns a list of media of the correct category" do
-      movies = Work.top_ten("movie")
-      expect(movies.length).must_equal 8
-      movies.each do |movie|
-        expect(movie).must_be_kind_of Work
-        expect(movie.category).must_equal "movie"
-      end
-    end
-
-    it "orders media by vote count" do
-      movies = Work.top_ten("movie")
-      previous_vote_count = 100
-      movies.each do |movie|
-        expect(movie.vote_count).must_be :<=, previous_vote_count
-        previous_vote_count = movie.vote_count
-      end
-    end
-
-    it "returns at most 10 items" do
-      movies = Work.top_ten("movie")
-      expect(movies.length).must_equal 8
-
-      Work.create(title: "phase 2 test movie 1", category: "movie")
-      expect(Work.top_ten("movie").length).must_equal 9
-
-      Work.create(title: "phase 2 test movie 2", category: "movie")
-      expect(Work.top_ten("movie").length).must_equal 10
-
-      Work.create(title: "phase 2 test movie 3", category: "movie")
-      expect(Work.top_ten("movie").length).must_equal 10
-    end
+    # it "returns a list of media of the correct category" do
+    #   movies = Work.top_ten("movie")
+    #   expect(movies.length).must_equal 8
+    #   movies.each do |movie|
+    #     expect(movie).must_be_kind_of Work
+    #     expect(movie.category).must_equal "movie"
+    #   end
+    # end
+    #
+    # it "orders media by vote count" do
+    #   movies = Work.top_ten("movie")
+    #   previous_vote_count = 100
+    #   movies.each do |movie|
+    #     expect(movie.vote_count).must_be :<=, previous_vote_count
+    #     previous_vote_count = movie.vote_count
+    #   end
+    # end
+    #
+    # it "returns at most 10 items" do
+    #   movies = Work.top_ten("movie")
+    #   expect(movies.length).must_equal 8
+    #
+    #   Work.create(title: "phase 2 test movie 1", category: "movie")
+    #   expect(Work.top_ten("movie").length).must_equal 9
+    #
+    #   Work.create(title: "phase 2 test movie 2", category: "movie")
+    #   expect(Work.top_ten("movie").length).must_equal 10
+    #
+    #   Work.create(title: "phase 2 test movie 3", category: "movie")
+    #   expect(Work.top_ten("movie").length).must_equal 10
+    # end
   end
 end
